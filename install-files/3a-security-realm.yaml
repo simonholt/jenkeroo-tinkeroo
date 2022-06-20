@@ -9,7 +9,7 @@ data:
         oic:
           authorizationServerUrl: "https://wcc-cicd-auth.auth.eu-west-1.amazoncognito.com/oauth2/authorize"
           clientId: "72q8i5t6oei2emqibhg2f4250d"
-          clientSecret: "{AQAAABAAAABA1qChI8VENvUDsR0MXUTRjVGluQ5HZwHFcmCdnrfoDzhu0LykaT3iBCa+hsVNLqEGz1FApom9Qoq+EUretrNDOS+P39ycN2q9xhnIRSjFMEs=}"
+          clientSecret: GET THIS FROM ELSEWHERE
           disableSslVerification: false
           emailFieldName: "email"
           endSessionEndpoint: "https://wcc-cicd-auth.auth.eu-west-1.amazoncognito.com/logout?client_id=72q8i5t6oei2emqibhg2f4250d&logout_uri=http://localhost:8080"
