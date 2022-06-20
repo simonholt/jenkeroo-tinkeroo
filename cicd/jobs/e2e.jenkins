@@ -20,7 +20,7 @@ pipelineJob('e2e-jenkins-operator') {
                 git {
                     remote {
                         url('https://github.com/simonholt/jenkeroo-tinkeroo.git')
-                        credentials('jenkins-operator')
+                        //credentials('jenkins-operator')
                     }
                     branches('*/master')
                 }
