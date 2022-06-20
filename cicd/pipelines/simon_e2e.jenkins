@@ -1,5 +1,5 @@
 pipeline {
-  agent { label 'jenkins-k8s-jenkins-agent'}
+  agent any
   stages{
 //    stage('checkout') {
 //      steps {
