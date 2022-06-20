@@ -16,10 +16,10 @@ pipelineJob('e2e-jenkins-operator') {
 
     definition {
         cpsScm {
-            scriptPath('cicd/pipelines/e2e.jenkins')
             scm {
                 github('simonholt/jenkeroo-tinkeroo', 'main')
             }
+            scriptPath('cicd/pipelines/e2e.jenkins')
         }
     }
 }
