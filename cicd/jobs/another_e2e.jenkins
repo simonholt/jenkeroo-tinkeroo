@@ -1,8 +1,3 @@
-pipelineJob('example') {
-    definition {
-        cps {
-            script(readFileFromWorkspace('project-a-workflow.groovy'))
-            sandbox()
-        }
-    }
+pipeline {
+    /* insert Declarative Pipeline here */
 }
