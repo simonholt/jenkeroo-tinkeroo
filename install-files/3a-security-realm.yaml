@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jenkins-oidc-casc
+data:
+  oidc.yaml: |
+    jenkins:
+      securityRealm:
+        oic:
+          authorizationServerUrl: "https://wcc-cicd-auth.auth.eu-west-1.amazoncognito.com/oauth2/authorize"
+          clientId: "72q8i5t6oei2emqibhg2f4250d"
+          clientSecret: "{AQAAABAAAABA1qChI8VENvUDsR0MXUTRjVGluQ5HZwHFcmCdnrfoDzhu0LykaT3iBCa+hsVNLqEGz1FApom9Qoq+EUretrNDOS+P39ycN2q9xhnIRSjFMEs=}"
+          disableSslVerification: false
+          emailFieldName: "email"
+          endSessionEndpoint: "https://wcc-cicd-auth.auth.eu-west-1.amazoncognito.com/logout?client_id=72q8i5t6oei2emqibhg2f4250d&logout_uri=http://localhost:8080"
+          escapeHatchEnabled: false
+          escapeHatchSecret: "{AQAAABAAAAAQsKA7h1ZCXUrKiExvRuI/SJupFNhK+u5gO/Tscg8kgQ0=}"
+          logoutFromOpenidProvider: true
+          postLogoutRedirectUrl: "http://localhost:8080"
+          scopes: "openid profile email"
+          tokenServerUrl: "https://wcc-cicd-auth.auth.eu-west-1.amazoncognito.com/oauth2/token"
+          userInfoServerUrl: "https://wcc-cicd-auth.auth.eu-west-1.amazoncognito.com/oauth2/userInfo"
+          userNameField: "email"
