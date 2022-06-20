@@ -17,6 +17,7 @@ pipelineJob('simon-testing-dsl-job') {
     definition {
         cps {
             script(readFileFromWorkspace('cicd/pipelines/simon_e2e.jenkins'))
+            // Need to put it in a sandbox, otherwise you have to approve the script!
             sandbox(true)
         }
     }
