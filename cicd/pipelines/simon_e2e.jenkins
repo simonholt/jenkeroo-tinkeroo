@@ -8,6 +8,7 @@ pipeline {
 //    }
     stage('install_terraform') {
       steps {
+        println "I need to do something, apparently!"
         //sh 'chmod 755 install_terraform.sh'
         //sh './install_terraform.sh 1.2.3'
       }
