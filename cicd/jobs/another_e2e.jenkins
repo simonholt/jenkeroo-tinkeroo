@@ -15,17 +15,15 @@ pipelineJob('simon-testing-dsl-job') {
     }
 
     definition {
-        cpsScm {
-            scm {
-                git {
-                    remote {
-                        url('https://github.com/simonholt/jenkeroo-tinkeroo.git')
-                        //credentials('jenkins-operator')
-                    }
-                    branches('*/main')
-                }
-            }
-            scriptPath('cicd/pipelines/simon_e2e.jenkins')
+        cps {
+            script(readFileFromWorkspace('cicd/pipelines/simon_e2e.jenkins'))
         }
+
+//        cpsScm {
+//            scm {
+//                github('simonholt/jenkeroo-tinkeroo')
+//            }
+//            scriptPath('cicd/pipelines/simon_e2e.jenkins')
+//        }
     }
 }
