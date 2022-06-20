@@ -1,31 +1,14 @@
 #!/usr/bin/env groovy
 
-pipeline('e2e-jenkins-operator-pipeline') {
-    displayName('Second pipeline for e2e testing')
+# (Declarative Pipeline)
 
-    logRotator {
-        numToKeep(10)
-        daysToKeep(30)
-    }
-
-    configure { project ->
-        project / 'properties' / 'org.jenkinsci.plugins.workflow.job.properties.DurabilityHintJobProperty' {
-            hint('PERFORMANCE_OPTIMIZED')
-        }
-    }
-
-    definition {
-        cpsScm {
-            scm {
-                git {
-                    remote {
-                        url('https://github.com/jenkinsci/kubernetes-operator.git')
-                        credentials('jenkins-operator')
-                    }
-                    branches('*/master')
-                }
+pipeline {
+    agent { docker { image 'golang:1.17.5-alpine' } }
+    stages {
+        stage('build') {
+            steps {
+                sh 'go version'
             }
-            scriptPath('cicd/pipelines/e2e.jenkins')
         }
     }
 }
