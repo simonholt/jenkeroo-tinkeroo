@@ -1,12 +1,30 @@
-#!/usr/bin/env groovy
-
 pipeline {
-    agent { docker { image 'golang:1.17.5-alpine' } }
-    stages {
-        stage('build') {
-            steps {
-                sh 'go version'
-            }
-        }
+  agent { label 'jenkins-k8s-jenkins-agent'}
+  stages{
+    stage('checkout') {
+      steps {
+        checkout scm
+      }
     }
+    stage('install_terraform') {
+      steps {
+        sh 'chmod 755 install_terraform.sh'
+        sh './install_terraform.sh 1.2.3'
+      }
+    }
+    stage('run_terraform') {
+      steps {
+        withAWS(credentials:'wcc-cicd-temp', region: "eu-west-1") {
+          sh './terraform -version'
+          // sh 'chmod 755 set-env.sh'
+          // sh 'source set-env.sh'
+          // sh './terraform init -backend-config "bucket=wcc-env-config-tf-states" -backend-config "dynamodb_table=wcc-env-config-statelock" -backend-config "region=eu-west-1" -backend-config "key=wcc/eu/tools/spin-poc/temp/temp_helm.tfstate" -no-color'
+          sh './terraform init -no-color'
+          sh './terraform plan -var-file environment.tools-spin-poc-eu.tfvars -no-color -lock=false'
+          // sh 'aws ecr get-login-password --region eu-west-1 | helm registry login --username AWS --password-stdin 289606673548.dkr.ecr.eu-west-1.amazonaws.com'
+          sh './terraform apply -var-file environment.tools-spin-poc-eu.tfvars -auto-approve -no-color'
+        }
+      }
+    }
+  }
 }
