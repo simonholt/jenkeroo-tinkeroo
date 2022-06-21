@@ -17,7 +17,12 @@ pipelineJob('e2e-jenkins-operator') {
     definition {
         cpsScm {
             scm {
-                github('simonholt/jenkeroo-tinkeroo', 'main')
+                git {
+                    remote {
+                        url('https://github.com/simonholt/jenkeroo-tinkeroo.git')
+                    }
+                    branches('*/main')
+                }
             }
             scriptPath('cicd/pipelines/e2e.jenkins')
         }
