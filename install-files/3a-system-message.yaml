@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jenkins-system-message-casc
+data:
+  system-message.yaml: |
+    jenkins:
+      systemMessage: Welcome to the WCC CI/CD server.  This Jenkins is configured and managed as code.  Any changed that are manually made will be lost on the next restart.

@@ -1,0 +1,16 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jenkins-allure-casc
+data:
+  allure.yaml: |
+    tool:
+      allure:
+        installations:
+        - name: "alurecli"
+          properties:
+          - installSource:
+              installers:
+              - allureCommandlineInstaller:
+                  id: "2.18.1"

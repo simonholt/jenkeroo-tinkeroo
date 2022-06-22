@@ -4,8 +4,10 @@ metadata:
   name: example
 spec:
   configurationAsCode:
-    configurations: []
-    #- name: jenkins-oidc-casc
+    configurations:   
+    - name: jenkins-oidc-casc
+    - name: jenkins-system-message-casc
+    - name: jenkins-allure-casc
     secret:
       name: ""
   groovyScripts:
@@ -122,3 +124,4 @@ spec:
       description: "Test populate things"
       repositoryBranch: main
       repositoryUrl: https://github.com/simonholt/jenkeroo-tinkeroo.git
+      buildPeriodically: "0 * * * *"
