@@ -17,6 +17,15 @@ import java.time.Instant
 import java.util.Date
 
 node {
+   stage('Prepare') {
+        mkdir -p ${pwd()}
+        mkdir -p ${${pwd(tmp: true)}}
+        
+        echo "WS: ${pwd()}, EXISTS: ${new File(pwd()).exists()}"
+        echo "WS_TMP: ${pwd(tmp: true)}, EXISTS: ${new File(pwd(tmp: true)).exists()}"
+        echo "CWD: ${new File('.').absolutePath}"
+        echo "USER_DIR: ${System.getProperty('user.dir')}"
+   }
     setVariables()
     stage ('Download Test Results') {        
         withAWS(role:"${env.MANAGED_ROLE}", roleAccount: "${env.AWS_ACCOUNT_ID}", duration: 900, roleSessionName: 'jenkins-s3-session') {
