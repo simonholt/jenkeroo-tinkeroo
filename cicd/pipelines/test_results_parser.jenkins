@@ -18,6 +18,7 @@ import java.util.Date
 
 node {
    stage('Prepare') {
+        sh 'ls -l ${WORKSPACE}'
         sh 'mkdir ${WORKSPACE} || true'
 
         echo "WS: ${pwd()}, EXISTS: ${new File(pwd()).exists()}"
