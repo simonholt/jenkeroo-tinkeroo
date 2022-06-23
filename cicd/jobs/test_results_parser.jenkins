@@ -34,22 +34,22 @@ pipelineJob('test-results-parser') {
         stringParam('S3LOC')
     }
 
-    // definition {
-    //     cpsScm {
-    //         scm {
-    //             git {
-    //                 remote {
-    //                     url('https://github.com/simonholt/jenkeroo-tinkeroo.git')
-    //                 }
-    //                 branches('*/main')
-    //             }
-    //         }
-    //         scriptPath('cicd/pipelines/test_results_parser.jenkins')
-    //     }
-    // }
     definition {
-        cps {
-            script(readFileFromWorkspace('cicd/pipelines/test_results_parser.jenkins'))
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url('https://github.com/simonholt/jenkeroo-tinkeroo.git')
+                    }
+                    branches('*/main')
+                }
+            }
+            scriptPath('cicd/pipelines/test_results_parser.jenkins')
         }
     }
+    // definition {
+    //     cps {
+    //         script(readFileFromWorkspace('cicd/pipelines/test_results_parser.jenkins'))
+    //     }
+    // }
 }
