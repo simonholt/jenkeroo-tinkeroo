@@ -31,6 +31,7 @@ node {
         withAWS(role:"${env.MANAGED_ROLE}", roleAccount: "${env.AWS_ACCOUNT_ID}", duration: 900, roleSessionName: 'jenkins-s3-session') {
             s3Download(file:"./", bucket:env.BUCKET_NAME, path:"$outputFolder/", force:true)   
         }
+        sh 'ls -l ${WORKSPACE}'
     }
     
     stage('Unzip Test Results'){
