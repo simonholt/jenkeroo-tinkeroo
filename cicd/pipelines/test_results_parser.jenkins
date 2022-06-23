@@ -18,7 +18,7 @@ import java.util.Date
 
 node {
    stage('Prepare') {
-        sh 'mkdir ${WORKSPACE}'
+        sh 'mkdir ${WORKSPACE} || true'
 
         echo "WS: ${pwd()}, EXISTS: ${new File(pwd()).exists()}"
         echo "WS_TMP: ${pwd(tmp: true)}, EXISTS: ${new File(pwd(tmp: true)).exists()}"
