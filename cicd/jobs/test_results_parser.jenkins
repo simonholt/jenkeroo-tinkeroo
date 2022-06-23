@@ -27,7 +27,7 @@ pipelineJob('test-results-parser') {
 
     definition {
         cps {
-            script(readFileFromWorkspace('cicd/pipelines/simon_e2e.jenkins'))
+            script(readFileFromWorkspace('cicd/pipelines/test_results_parser.jenkins'))
             // Need to put it in a sandbox, otherwise you have to approve the script!
             sandbox(true)
         }
