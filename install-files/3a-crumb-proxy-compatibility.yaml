@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: crumb-proxy-compatibility-casc
+data:
+  crumb-proxy-compatibility.yaml: |
+    jenkins:
+      crumbIssuer:
+        standard:
+          excludeClientIPFromCrumb: true
