@@ -73,7 +73,11 @@ def setVariables(){
     echo "Build Time is: $env.BUILD_TIME"
     Long unixEpoch = Long.valueOf(env.BUILD_TIME)
     Date convertedDate = Date.from(Instant.ofEpochMilli(unixEpoch))
-    def buildTimeStamp = new SimpleDateFormat("E-MMM-dd-HH-mm-ss-z-yyyy").format(convertedDate)
+    // SPITS THINGS OUT IN GMT - I KNOW NOT WHY
+    //def buildTimeStamp = new SimpleDateFormat("E-MMM-dd-HH-mm-ss-z-yyyy").format(convertedDate)
+    final SimpleDateFormat sdf = new SimpleDateFormat("E-MMM-dd-HH-mm-ss-z-yyyy");
+    sdf.setTimeZone(TimeZone.getTimeZone("UTC"))
+    def buildTimeStamp = sdf.format(convertedDate)
     
     //Get the service name and version number
     println "Service trigger: $env.SERVICE_TRIGGER"
