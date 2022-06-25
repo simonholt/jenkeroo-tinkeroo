@@ -11,7 +11,7 @@ podTemplate(containers: [
     node (POD_LABEL) {
         stage('Wait for Docker daemon to be ready') {
             container('docker-client') {
-                sh "while ! docker ps > /dev/null; do sleep 3s; done;"
+                sh "sleep 5; while ! docker ps > /dev/null; do sleep 1s; done;"
             }
         }
         stage('Pull SHARED Docker Image') {
