@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 podTemplate(containers: [
-    containerTemplate(name: 'docker-daemon', image: 'docker:dind', ttyEnabled: true, command: 'sleep', args: '99d'),
+    containerTemplate(name: 'docker-daemon', image: 'docker:dind', ttyEnabled: true),
     containerTemplate(name: 'docker-client', image: 'docker:dind', ttyEnabled: true, command: 'sleep', args: '99d', envVars: [ envVar(key: 'DOCKER_HOST', value: 'tcp://localhost:2375')])
 ]) {
     node (POD_LABEL) {
