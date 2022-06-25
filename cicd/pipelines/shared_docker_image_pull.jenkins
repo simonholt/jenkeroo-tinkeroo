@@ -1,11 +1,12 @@
 #!/usr/bin/env groovy
 
 podTemplate(containers: [
-    containerTemplate(name: 'dind-rootless', image: 'docker:dind-rootless', ttyEnabled: true, command: 'sleep', args: '99d'),
+    containerTemplate(name: 'docker-daemon', image: 'docker:dind', ttyEnabled: true, command: 'sleep', args: '99d'),
+    containerTemplate(name: 'docker-client', image: 'docker:dind', ttyEnabled: true, command: 'sleep', args: '99d', envVars: [ envVar(key: 'DOCKER_HOST', value: 'tcp://localhost:2375')])
 ]) {
     node (POD_LABEL) {
         stage('Pull SHARED Docker Image') {
-            container('dind-rootless') {
+            container('docker-client') {
                 withAWS(credentials:'aws-key', region: "eu-west-1") {
                     println "Pulling image datamanagement from shared registry"
                     sh "ls -l /usr/local/bin"
