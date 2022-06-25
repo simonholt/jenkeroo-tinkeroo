@@ -9,12 +9,12 @@ podTemplate(containers: [
         stage('Pull SHARED Docker Image') {
             container('docker-client') {
                 // Wait for the docker daemon to be ready
-                sh "sleep 60s"
+                sh "while ! docker ps > /dev/null; do sleep 3s; done;"
+                
                 withAWS(credentials:'aws-key', region: "eu-west-1") {
                     println "Pulling image datamanagement from shared registry"
                     docker.withRegistry("https://289606673548.dkr.ecr.eu-west-1.amazonaws.com/datamanagement", "ecr:eu-west-1:aws-key") {
                         println "Starting to pull"
-                        //docker.image('289606673548.dkr.ecr.eu-west-1.amazonaws.com/datamanagement:1.1.0').pull()
                         sh "docker image pull 289606673548.dkr.ecr.eu-west-1.amazonaws.com/datamanagement:1.1.0"
                     }
                 }
