@@ -15,22 +15,23 @@ pipelineJob('shared-docker-image-pull') {
     }
 
     definition {
-        cpsScm {
-            scm {
-                git {
-                    remote {
-                        url('https://github.com/simonholt/jenkeroo-tinkeroo.git')
-                    }
-                    branches('*/main')
-                }
-            }
-            scriptPath('cicd/pipelines/shared_docker_image_pull.jenkins')
-        }
-    }
-    // definition {
-    //     cps {
-    //         script(readFileFromWorkspace('cicd/pipelines/test_results_parser.jenkins'))
-    //         sandbox(false)
+        // TEMP FOR TESTING
+    //     cpsScm {
+    //         scm {
+    //             git {
+    //                 remote {
+    //                     url('https://github.com/simonholt/jenkeroo-tinkeroo.git')
+    //                 }
+    //                 branches('*/main')
+    //             }
+    //         }
+    //         scriptPath('cicd/pipelines/shared_docker_image_pull.jenkins')
     //     }
     // }
+    definition {
+        cps {
+            script(readFileFromWorkspace('cicd/pipelines/test_results_parser.jenkins'))
+            sandbox(false)
+        }
+    }
 }
