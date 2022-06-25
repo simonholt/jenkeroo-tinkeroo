@@ -1,5 +1,6 @@
 #!/usr/bin/env groovy
 
+/* This spins up 2 containers within the pod - one running a docker daemon, and one running a docker client that points to it.  It does *not* use the Docker daemon running on the host. */
 podTemplate(containers: [
     containerTemplate(name: 'docker-daemon', image: 'docker:dind', ttyEnabled: true, envVars: [ envVar(key: 'DOCKER_TLS_CERTDIR', value: '')], privileged: true),
     containerTemplate(name: 'docker-client', image: 'docker:latest', ttyEnabled: true, envVars: [ envVar(key: 'DOCKER_HOST', value: 'tcp://localhost:2375')], command: 'sleep', args: '99d')
@@ -7,9 +8,10 @@ podTemplate(containers: [
     node (POD_LABEL) {
         stage('Pull SHARED Docker Image') {
             container('docker-client') {
+                // Wait for the docker daemon to be ready
+                sh "sleep 60s"
                 withAWS(credentials:'aws-key', region: "eu-west-1") {
                     println "Pulling image datamanagement from shared registry"
-                    sh "ls -l /usr/local/bin"
                     docker.withRegistry("https://289606673548.dkr.ecr.eu-west-1.amazonaws.com/datamanagement", "ecr:eu-west-1:aws-key") {
                         println "Starting to pull"
                         //docker.image('289606673548.dkr.ecr.eu-west-1.amazonaws.com/datamanagement:1.1.0').pull()
