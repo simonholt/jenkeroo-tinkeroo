@@ -1,3 +1,17 @@
+pipeline {
+    agent {
+        docker { image 'node:16.13.1-alpine' }
+    }
+    stages {
+        stage('Test') {
+            steps {
+                sh 'node --version'
+            }
+        }
+    }
+}
+
+/*
 node {
    stage('Prepare') {
         echo "WS: ${pwd()}, EXISTS: ${new File(pwd()).exists()}"
@@ -6,3 +20,4 @@ node {
         echo "USER_DIR: ${System.getProperty('user.dir')}"
    }
 } 
+*/
