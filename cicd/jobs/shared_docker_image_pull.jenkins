@@ -30,7 +30,7 @@ pipelineJob('shared-docker-image-pull') {
     // }
     definition {
         cps {
-            script(readFileFromWorkspace('cicd/pipelines/test_results_parser.jenkins'))
+            script(readFileFromWorkspace('cicd/pipelines/shared_docker_image_pull.jenkins'))
             sandbox(false)
         }
     }
