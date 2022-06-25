@@ -1,0 +1,36 @@
+#!/usr/bin/env groovy
+
+pipelineJob('shared-docker-image-pull') {
+    displayName('SHARED Docker image pull')
+
+    logRotator {
+        numToKeep(10)
+        daysToKeep(30)
+    }
+
+    configure { project ->
+        project / 'properties' / 'org.jenkinsci.plugins.workflow.job.properties.DurabilityHintJobProperty' {
+            hint('PERFORMANCE_OPTIMIZED')
+        }
+    }
+
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url('https://github.com/simonholt/jenkeroo-tinkeroo.git')
+                    }
+                    branches('*/main')
+                }
+            }
+            scriptPath('cicd/pipelines/shared-docker-image-pull.jenkins')
+        }
+    }
+    // definition {
+    //     cps {
+    //         script(readFileFromWorkspace('cicd/pipelines/test_results_parser.jenkins'))
+    //         sandbox(false)
+    //     }
+    // }
+}
