@@ -9,11 +9,11 @@ podTemplate(containers: [
                 withAWS(credentials:'aws-key', region: "eu-west-1") {
                     println "Pulling image datamanagement from shared registry"
                     sh "ls -l /usr/local/bin"
-                    // docker.withRegistry("https://289606673548.dkr.ecr.eu-west-1.amazonaws.com/datamanagement", "ecr:eu-west-1:aws-key") {
-                    //     println "Starting to pull"
-                    //     docker.image('289606673548.dkr.ecr.eu-west-1.amazonaws.com/datamanagement:1.1.0').pull()
-                    //     sh "docker image pull 289606673548.dkr.ecr.eu-west-1.amazonaws.com/datamanagement:1.1.0"
-                    // }
+                    docker.withRegistry("https://289606673548.dkr.ecr.eu-west-1.amazonaws.com/datamanagement", "ecr:eu-west-1:aws-key") {
+                        println "Starting to pull"
+                        docker.image('289606673548.dkr.ecr.eu-west-1.amazonaws.com/datamanagement:1.1.0').pull()
+                        sh "docker image pull 289606673548.dkr.ecr.eu-west-1.amazonaws.com/datamanagement:1.1.0"
+                    }
                 }
             }
         }
