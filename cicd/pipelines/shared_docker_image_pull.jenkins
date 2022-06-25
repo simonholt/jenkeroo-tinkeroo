@@ -2,7 +2,7 @@
 
 podTemplate(containers: [
     containerTemplate(name: 'docker-daemon', image: 'docker:dind', ttyEnabled: true, envVars: [ envVar(key: 'DOCKER_TLS_CERTDIR', value: '')], privileged: true),
-    containerTemplate(name: 'docker-client', image: 'docker:latest', ttyEnabled: true, envVars: [ envVar(key: 'DOCKER_HOST', value: 'tcp://localhost:2375')] command: 'sleep', args: '99d')
+    containerTemplate(name: 'docker-client', image: 'docker:latest', ttyEnabled: true, envVars: [ envVar(key: 'DOCKER_HOST', value: 'tcp://localhost:2375')], command: 'sleep', args: '99d')
 ]) {
     node (POD_LABEL) {
         stage('Pull SHARED Docker Image') {
