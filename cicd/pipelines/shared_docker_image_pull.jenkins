@@ -1,10 +1,3 @@
-/* DOESN'T WORK */
-/*
-What this is trying to do is create a docker daemon (which fails with a permission error - the security context thing isn't right) then use it to
-run the docker commands.
-*/
-
-
 #!/usr/bin/env groovy
 
 podTemplate(containers: [
