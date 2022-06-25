@@ -1,16 +1,21 @@
 #!/usr/bin/env groovy
 
-/* This spins up 2 containers within the pod - one running a docker daemon, and one running a docker client that points to it.  It does *not* use the Docker daemon running on the host. */
+/* This spins up 2 containers within the pod - one running a docker daemon, and one running a docker client that points to it.  It does *not* use the Docker daemon running on the host.
+   This means that any images that are pulled only persist for the length of the build which is bad for caching, but is good for not filling up space on the host, and also reduces
+   any risk of incompatibility with ContainerD.
+   Alternatively, the docker-client container can mount the docker socket on the host. */
 podTemplate(containers: [
     containerTemplate(name: 'docker-daemon', image: 'docker:dind', ttyEnabled: true, envVars: [ envVar(key: 'DOCKER_TLS_CERTDIR', value: '')], privileged: true),
     containerTemplate(name: 'docker-client', image: 'docker:latest', ttyEnabled: true, envVars: [ envVar(key: 'DOCKER_HOST', value: 'tcp://localhost:2375')], command: 'sleep', args: '99d')
 ]) {
     node (POD_LABEL) {
+        stage('Wait for Docker daemon to be ready') {
+            container('docker-client') {
+                sh "while ! docker ps > /dev/null; do sleep 3s; done;"
+            }
+        }
         stage('Pull SHARED Docker Image') {
             container('docker-client') {
-                // Wait for the docker daemon to be ready
-                sh "while ! docker ps > /dev/null; do sleep 3s; done;"
-                
                 withAWS(credentials:'aws-key', region: "eu-west-1") {
                     println "Pulling image datamanagement from shared registry"
                     docker.withRegistry("https://289606673548.dkr.ecr.eu-west-1.amazonaws.com/datamanagement", "ecr:eu-west-1:aws-key") {
