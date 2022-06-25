@@ -14,8 +14,8 @@ pipelineJob('shared-docker-image-pull') {
         }
     }
 
-    definition {
-        // TEMP FOR TESTING
+    // TEMP FOR TESTING
+    //definition {
     //     cpsScm {
     //         scm {
     //             git {
