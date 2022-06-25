@@ -4,7 +4,7 @@ def label = "k8s-${UUID.randomUUID().toString()}"
 
 podTemplate(label: label,
         containers: [
-                containerTemplate(name: 'dind-rootless', image: 'dind-rootless', ttyEnabled: true, command: 'cat'),
+                containerTemplate(name: 'dind-rootless', image: 'docker:dind-rootless', ttyEnabled: true, command: 'cat'),
         ],
         ) {
     node(label)  {
