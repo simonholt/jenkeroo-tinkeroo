@@ -24,7 +24,7 @@ pipelineJob('shared-docker-image-pull') {
                     branches('*/main')
                 }
             }
-            scriptPath('cicd/pipelines/shared-docker-image-pull.jenkins')
+            scriptPath('cicd/pipelines/shared_docker_image_pull.jenkins')
         }
     }
     // definition {
