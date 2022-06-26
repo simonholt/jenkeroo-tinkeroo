@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-pipelineJob('e2e-jenkins-operator') {
+pipelineJob('test-folder/e2e-jenkins-operator') {
     displayName('Dummy job for e2e testing')
 
     logRotator {

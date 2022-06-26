@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-pipelineJob('simon-testing-dsl-job') {
+pipelineJob('test-folder/simon-testing-dsl-job') {
     displayName('Simon\'s test job for tinkerings')
 
     logRotator {
