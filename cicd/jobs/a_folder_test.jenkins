@@ -1,4 +1,0 @@
-folder('test-folder') {
-    displayName('Test Folder')
-    description('Folder for testing things and stuffs')
-}

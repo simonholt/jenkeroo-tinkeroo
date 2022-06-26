@@ -1,0 +1,6 @@
+#!/usr/bin/env groovy
+/* Folders appear lexographically first in the file list, before any job definitions that use then */
+folder('test-folder') {
+    displayName('Test Folder')
+    description('Contains test, example, and validation jobs')
+}
