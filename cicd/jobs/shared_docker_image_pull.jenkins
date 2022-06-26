@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-pipelineJob('shared-docker-image-pull') {
+pipelineJob('test-folder/shared-docker-image-pull') {
     displayName('SHARED Docker image pull')
 
     logRotator {
