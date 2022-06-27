@@ -2,23 +2,12 @@
 /* Folders appear lexographically first in the file list, before any job definitions that use then */
 folder('test-folder') {
 
-    authorization {
-      permission('GROUP:hudson.model.Item.Build:admin')
-      permission('GROUP:hudson.model.Item.Cancel:admin')
-      permission('GROUP:hudson.model.Item.Configure:admin')
-      permission('GROUP:hudson.model.Item.Create:admin')
-      permission('GROUP:hudson.model.Item.Delete:admin')
-      permission('GROUP:hudson.model.Item.Discover:admin')
-      permission('GROUP:hudson.model.Item.Move:admin')
-      permission('GROUP:hudson.model.Item.Read:admin')
-      permission('GROUP:hudson.model.Item.Workspace:admin')
-      permission('GROUP:hudson.model.Run.Delete:admin')
-      permission('GROUP:hudson.model.View.Read:admin')
-
-    }
-
     displayName('Test Folder')
     description('Contains test, example, and validation jobs')
+
+    // configure { folder ->
+    //     folder / icon(class: 'org.example.MyFolderIcon')
+    // }
 }
 
 /*
