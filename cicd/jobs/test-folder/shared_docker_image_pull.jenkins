@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
-pipelineJob('test-folder/k8s-e2e') {
-    displayName('Kubernetes Plugin E2E Test')
+pipelineJob('test-folder/shared-docker-image-pull') {
+    displayName('SHARED Docker image pull')
 
     logRotator {
         numToKeep(10)
@@ -24,7 +24,13 @@ pipelineJob('test-folder/k8s-e2e') {
                     branches('*/main')
                 }
             }
-            scriptPath('cicd/pipelines/k8s.jenkins')
+            scriptPath('cicd/pipelines/test-folder/shared_docker_image_pull.jenkins')
         }
     }
+    // definition {
+    //     cps {
+    //         script(readFileFromWorkspace('cicd/pipelines/shared_docker_image_pull.jenkins'))
+    //         sandbox(false)
+    //     }
+    // }
 }

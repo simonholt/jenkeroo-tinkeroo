@@ -24,7 +24,7 @@ pipelineJob('test-folder/e2e-jenkins-operator') {
                     branches('*/main')
                 }
             }
-            scriptPath('cicd/pipelines/e2e.jenkins')
+            scriptPath('cicd/pipelines/test-folder/e2e.jenkins')
         }
     }
 }
