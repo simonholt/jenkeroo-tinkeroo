@@ -4,33 +4,4 @@ folder('test-folder') {
 
     displayName('Test Folder')
     description('Contains test, example, and validation jobs')
-
-    configure { folder ->
-        folder / properties / com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty
-    }
 }
-
-/*
-        <com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty>
-        <permission>hudson.model.Item.Create:authenticated</permission>
-        </com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty>
-
-      <inheritanceStrategy class="org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy"/>
-      <permission>GROUP:hudson.model.Item.Build:admin</permission>
-      <permission>GROUP:hudson.model.Item.Cancel:admin</permission>
-      <permission>GROUP:hudson.model.Item.Configure:admin</permission>
-      <permission>GROUP:hudson.model.Item.Create:admin</permission>
-      <permission>GROUP:hudson.model.Item.Delete:admin</permission>
-      <permission>GROUP:hudson.model.Item.Discover:admin</permission>
-      <permission>GROUP:hudson.model.Item.Move:admin</permission>
-      <permission>GROUP:hudson.model.Item.Read:admin</permission>
-      <permission>GROUP:hudson.model.Item.Workspace:admin</permission>
-      <permission>GROUP:hudson.model.Run.Delete:admin</permission>
-      <permission>GROUP:hudson.model.View.Read:admin</permission>
-*/
-
-//   <properties>
-//     <com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty>
-//       <inheritanceStrategy class="org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy"/>
-//     </com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty>
-//   </properties>
