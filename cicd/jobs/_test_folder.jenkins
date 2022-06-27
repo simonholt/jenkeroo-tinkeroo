@@ -5,9 +5,9 @@ folder('test-folder') {
     displayName('Test Folder')
     description('Contains test, example, and validation jobs')
 
-    // configure { folder ->
-    //     folder / icon(class: 'org.example.MyFolderIcon')
-    // }
+    configure { folder ->
+        folder / properties / com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty
+    }
 }
 
 /*
@@ -28,3 +28,9 @@ folder('test-folder') {
       <permission>GROUP:hudson.model.Run.Delete:admin</permission>
       <permission>GROUP:hudson.model.View.Read:admin</permission>
 */
+
+  <properties>
+    <com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty>
+      <inheritanceStrategy class="org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy"/>
+    </com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty>
+  </properties>
