@@ -29,8 +29,8 @@ folder('test-folder') {
       <permission>GROUP:hudson.model.View.Read:admin</permission>
 */
 
-  <properties>
-    <com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty>
-      <inheritanceStrategy class="org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy"/>
-    </com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty>
-  </properties>
+//   <properties>
+//     <com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty>
+//       <inheritanceStrategy class="org.jenkinsci.plugins.matrixauth.inheritance.InheritParentStrategy"/>
+//     </com.cloudbees.hudson.plugins.folder.properties.AuthorizationMatrixProperty>
+//   </properties>
