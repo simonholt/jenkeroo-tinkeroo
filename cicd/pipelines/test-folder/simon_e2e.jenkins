@@ -1,23 +1,15 @@
-pipeline {
-    agent {
-        docker { image 'node:16.13.1-alpine' }
-    }
-    stages {
-        stage('Test') {
-            steps {
+#!/usr/bin/env groovy
+
+podTemplate(label: label,
+        containers: [
+                containerTemplate(name: 'node', image: 'node:16.13.1-alpine', ttyEnabled: true, command: 'cat'),
+        ],
+        ) {
+    node(POD_LABEL) {
+        stage('Run shell') {
+            container('node') {
                 sh 'node --version'
             }
         }
     }
 }
-
-/*
-node {
-   stage('Prepare') {
-        echo "WS: ${pwd()}, EXISTS: ${new File(pwd()).exists()}"
-        echo "WS_TMP: ${pwd(tmp: true)}, EXISTS: ${new File(pwd(tmp: true)).exists()}"
-        echo "CWD: ${new File('.').absolutePath}"
-        echo "USER_DIR: ${System.getProperty('user.dir')}"
-   }
-} 
-*/
