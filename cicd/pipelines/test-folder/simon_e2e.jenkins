@@ -1,10 +1,8 @@
 #!/usr/bin/env groovy
 
-podTemplate(label: label,
-        containers: [
-                containerTemplate(name: 'node', image: 'node:16.13.1-alpine', ttyEnabled: true, command: 'cat'),
-        ],
-        ) {
+podTemplate(containers: [
+    containerTemplate(name: 'node', image: 'node:16.13.1-alpine', ttyEnabled: true, command: 'cat'),
+    ]) {
     node(POD_LABEL) {
         stage('Run shell') {
             container('node') {
