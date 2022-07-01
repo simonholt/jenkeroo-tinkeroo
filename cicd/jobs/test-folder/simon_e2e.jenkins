@@ -15,10 +15,16 @@ pipelineJob('test-folder/simon-testing-dsl-job') {
     }
 
     definition {
-        cps {
-            script(readFileFromWorkspace('cicd/pipelines/test-folder/simon_e2e.jenkins'))
-            // Need to put it in a sandbox, otherwise you have to approve the script!
-            sandbox(true)
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url('https://github.com/simonholt/jenkeroo-tinkeroo.git')
+                    }
+                    branches('*/main')
+                }
+            }
+            scriptPath('cicd/pipelines/test-folder/simon_e2e.jenkins')
         }
     }
 }
