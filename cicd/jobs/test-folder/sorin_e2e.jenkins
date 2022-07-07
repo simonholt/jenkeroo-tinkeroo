@@ -1,0 +1,37 @@
+#!/usr/bin/env groovy
+
+pipelineJob('test-folder/sorin-testing-dsl-job') {
+    displayName('sorin\'s test job for tinkerings')
+
+    logRotator {
+        numToKeep(10)
+        daysToKeep(30)
+    }
+
+    configure { project ->
+        project / 'properties' / 'org.jenkinsci.plugins.workflow.job.properties.DurabilityHintJobProperty' {
+            hint('PERFORMANCE_OPTIMIZED')
+        }
+    }
+
+    // definition {
+    //     cpsScm {
+    //         scm {
+    //             git {
+    //                 remote {
+    //                     url('https://github.com/sorinholt/jenkeroo-tinkeroo.git')
+    //                 }
+    //                 branches('*/main')
+    //             }
+    //         }
+    //         scriptPath('cicd/pipelines/test-folder/shared_docker_image_pull.jenkins')
+    //     }
+    // }
+    definition {
+        cps {
+            script(readFileFromWorkspace('cicd/pipelines/test-folder/simon_e2e.jenkins'))
+            // Need to put it in a sandbox, otherwise you have to approve the script!
+            sandbox(true)
+        }
+    }
+}
