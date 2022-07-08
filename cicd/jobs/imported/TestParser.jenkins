@@ -1,8 +1,8 @@
 #!/usr/bin/env groovy
 
 pipelineJob('imported/TestParser') {
-    displayName('TestParser')
-    // description('TestParser')
+    displayName('Test Parser')
+    // description('Test Parser')
 
     disabled(false)
     keepDependencies(false)

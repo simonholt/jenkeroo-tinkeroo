@@ -1,8 +1,8 @@
 #!/usr/bin/env groovy
 
 pipelineJob('imported/Test-Results-Parser-v2') {
-    displayName('Test-Results-Parser-v2')
-    // description('TestResultsParserv2')
+    displayName('Test Results Parser v2')
+    // description('Test Results Parser v2')
 
     disabled(false)
     keepDependencies(false)
