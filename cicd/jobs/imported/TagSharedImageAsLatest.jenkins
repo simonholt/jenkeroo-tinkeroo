@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-pipelineJob('imported/TagSharedImageAsLatest') {
+pipelineJob('TagSharedImageAsLatest') {
     displayName('TagSharedImageAsLatest')
     // description('TagSharedImageAsLatest')
 
