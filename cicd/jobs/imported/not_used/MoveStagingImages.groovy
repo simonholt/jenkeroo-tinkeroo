@@ -37,7 +37,7 @@ pipelineJob('MoveStagingImages') {
                     branches('*/main')
                 }
             }
-            scriptPath('cicd/pipelines/imported/MoveStagingImages.groovy')
+            scriptPath('cicd/pipelines/imported/MoveStagingImages.jenkins')
         }
     }
 }

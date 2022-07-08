@@ -1,8 +1,8 @@
 #!/usr/bin/env groovy
 
-pipelineJob('Test-Results-Parser-v2') {
-    displayName('Test-Results-Parser-v2')
-    // description('Test-Results-Parser-v2')
+pipelineJob('TagSharedImageAsLatest') {
+    displayName('TagSharedImageAsLatest')
+    // description('TagSharedImageAsLatest')
 
     disabled(false)
     keepDependencies(false)
@@ -12,7 +12,9 @@ pipelineJob('Test-Results-Parser-v2') {
 
     logRotator {
         numToKeep(10)
-        daysToKeep(30)
+        daysToKeep(30) // -1
+        artifactDaysToKeep(30) // -1
+        artifactNumToKeep(10) // -1
     }
 
     configure { project ->
@@ -22,10 +24,8 @@ pipelineJob('Test-Results-Parser-v2') {
     }
 
     parameters {
-        choiceParam('RESULTS_REGION', ['eu-west-1', 'us-east-1'], 'Region in which staging tests are running')
-        stringParam('BUCKET_NAME', 'wcc-staging-staging-data', 'Name of the S3 bucket that contains the RESULTS_FILENAME')
-        stringParam('OUTPUT_FOLDER', 'e2e', 'Please use this format {technical_owner}/{servicename}/{version}/{test-type}/')
-        stringParam('AWS_ACCOUNT_ID', '992548356091', 'The AWS account the bucket belongs to')
+        stringParam('image_ref', '', 'The full docker image reference in AWS ECR to tag as latest i.e. repo/name:tag')
+        stringParam('region', '', 'The AWS region containing the image e.g. us-east-1')
     }
 
     definition {
@@ -38,7 +38,7 @@ pipelineJob('Test-Results-Parser-v2') {
                     branches('*/main')
                 }
             }
-            scriptPath('cicd/pipelines/imported/Test-Results-Parser-v2.groovy')
+            scriptPath('cicd/pipelines/imported/TagSharedImageAsLatest.jenkins')
         }
     }
 }

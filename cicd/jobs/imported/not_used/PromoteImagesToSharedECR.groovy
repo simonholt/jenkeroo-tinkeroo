@@ -41,7 +41,7 @@ pipelineJob('PromoteImagesToProduction') {
                     branches('*/main')
                 }
             }
-            scriptPath('cicd/pipelines/imported/PromoteImagesToProduction.groovy')
+            scriptPath('cicd/pipelines/imported/PromoteImagesToProduction.jenkins')
         }
     }
 }

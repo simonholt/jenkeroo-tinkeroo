@@ -40,7 +40,7 @@ pipelineJob('TestParser') {
                     branches('*/main')
                 }
             }
-            scriptPath('cicd/pipelines/imported/TestParser.groovy')
+            scriptPath('cicd/pipelines/imported/TestParser.jenkins')
         }
     }
 }

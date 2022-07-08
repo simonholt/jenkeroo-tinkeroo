@@ -1,8 +1,8 @@
 #!/usr/bin/env groovy
 
-pipelineJob('PromoteSharedImagesToProduction') {
-    displayName('PromoteSharedImagesToProduction')
-    // description('PromoteSharedImagesToProduction')
+pipelineJob('TagImageAsLatest') {
+    displayName('TagImageAsLatest')
+    // description('TagImageAsLatest')
 
     disabled(false)
     keepDependencies(false)
@@ -11,7 +11,7 @@ pipelineJob('PromoteSharedImagesToProduction') {
     resumeBlocked(false)
 
     logRotator {
-        numToKeep(10)
+        numToKeep(10) // 1
         daysToKeep(30) // -1
         artifactDaysToKeep(30) // -1
         artifactNumToKeep(10) // -1
@@ -24,11 +24,8 @@ pipelineJob('PromoteSharedImagesToProduction') {
     }
 
     parameters {
-        choiceParam('from_region', ['eu-west-1', 'us-east-1'], 'AWS region to pull the docker image from')
-        stringParam('to_region', 'us-east-1', 'The region the docker image needs pushing to')
-        stringParam('images_to_promote')
-        stringParam('from_account', '289606673548', 'AWS account ID to pull ECR images from')
-        stringParam('to_account', '613130457194', 'Target AWS account to push images to')
+        stringParam('image_ref', '', 'The full docker image reference in AWS ECR to tag as latest i.e. repo/name:tag')
+        stringParam('region', '', 'The AWS region containing the image e.g. eu-west-2')
     }
 
     definition {
@@ -41,7 +38,7 @@ pipelineJob('PromoteSharedImagesToProduction') {
                     branches('*/main')
                 }
             }
-            scriptPath('cicd/pipelines/imported/PromoteSharedImagesToProduction.groovy')
+            scriptPath('cicd/pipelines/imported/TagImageAsLatest.jenkins')
         }
     }
 }

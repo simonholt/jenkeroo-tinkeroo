@@ -43,7 +43,7 @@ pipelineJob('tracetool_labmonitor') {
                     branches('*/main')
                 }
             }
-            scriptPath('cicd/pipelines/imported/tracetool_labmonitor.groovy')
+            scriptPath('cicd/pipelines/imported/tracetool_labmonitor.jenkins')
         }
     }
 }
