@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-pipelineJob('PromoteSharedImagesToProduction') {
+pipelineJob('imported/PromoteSharedImagesToProduction') {
     displayName('PromoteSharedImagesToProduction')
     // description('PromoteSharedImagesToProduction')
 
