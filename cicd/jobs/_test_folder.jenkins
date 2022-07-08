@@ -5,3 +5,9 @@ folder('test-folder') {
     displayName('Test Folder')
     description('Contains test, example, and validation jobs')
 }
+
+folder('imported') {
+
+    displayName('Imported')
+    description('Contains jobs imported from current Jenkins')
+}
