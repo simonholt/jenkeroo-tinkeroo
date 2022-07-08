@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-pipelineJob('imported/TestResultsParserv2') {
+pipelineJob('imported/Test-Results-Parser-v2') {
     displayName('TestResultsParserv2')
     // description('TestResultsParserv2')
 
