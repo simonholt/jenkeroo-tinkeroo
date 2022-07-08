@@ -7,9 +7,6 @@ pipelineJob('MoveStagingImages') {
     disabled(false)
     keepDependencies(false)
 
-    concurrentBuild()
-    // resumeBlocked(false)
-
     logRotator {
         numToKeep(10)
         daysToKeep(30)

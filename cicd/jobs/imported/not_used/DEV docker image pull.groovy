@@ -7,9 +7,6 @@ pipelineJob('imported/DEV docker image pull') {
     disabled(false)
     keepDependencies(false)
 
-    concurrentBuild()
-    // resumeBlocked(false)
-
     logRotator {
         numToKeep(10)
         daysToKeep(30)
