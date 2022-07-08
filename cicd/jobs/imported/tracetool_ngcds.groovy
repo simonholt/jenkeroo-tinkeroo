@@ -1,0 +1,50 @@
+#!/usr/bin/env groovy
+
+pipelineJob('tracetool_ngcds') {
+    displayName('tracetool_ngcds')
+    // description('tracetool_ngcds')
+
+    disabled(false)
+    keepDependencies(false)
+
+    concurrentBuild(true)
+    resumeBlocked(false)
+
+    logRotator {
+        numToKeep(10)
+        daysToKeep(30)
+    }
+
+    configure { project ->
+        project / 'properties' / 'org.jenkinsci.plugins.workflow.job.properties.DurabilityHintJobProperty' {
+            hint('PERFORMANCE_OPTIMIZED')
+        }
+        // 'org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction'
+        // 'org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction'
+    }
+
+    parameters {
+        stringParam('BUCKET_NAME', 'wcc-development-staging-data', 'Name of the S3 bucket that contains the RESULTS_FILENAME')
+        stringParam('TAG', 'latest', 'TAG description')
+        stringParam('AWS_ACCOUNT_ID', '770740718813', '? The AWS account the bucket belongs to ?')
+        choiceParam('RESULTS_REGION', ['eu-west-1', 'us-east-1'], '? Region in which staging tests are running ?')
+        stringParam('VERSION', '0.0.1', 'VERSION description')
+        stringParam('SERVICE_FOLDER', 'ngCDS/cds-workflowbuilder', 'SERVICE_FOLDER description')
+        stringParam('GITHUB_REPO_NAME', 'wcc-cds-workflowbuilder', 'GITHUB_REPO_NAME description')
+        stringParam('SERVICE_TRIGGER', 'latest', 'SERVICE_TRIGGER description')
+    }
+
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url('https://github.com/simonholt/jenkeroo-tinkeroo.git')
+                    }
+                    branches('*/main')
+                }
+            }
+            scriptPath('cicd/pipelines/imported/tracetool_ngcds.groovy')
+        }
+    }
+}

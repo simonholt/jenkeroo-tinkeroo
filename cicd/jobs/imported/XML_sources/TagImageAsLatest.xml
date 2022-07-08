@@ -1,0 +1,86 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.41">
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>-1</daysToKeep>
+        <numToKeep>1</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>image_ref</name>
+          <description>The full docker image reference in AWS ECR to tag as latest i.e. repo/name:tag</description>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>region</name>
+          <description>The AWS region containing the image e.g. eu-west-2</description>
+          <trim>true</trim>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2633.v6baeedc13805">
+    <script>//This script expects a credential called aws-key to exist in Jenkins
+node {
+
+  setVariables()
+
+  if(tagAlreadyLatest){
+      currentBuild.result = 'SUCCESS'
+      return
+  }
+
+  stage('Pull and Tag Docker Image') {
+
+    withAWS(credentials:'aws-key', region: "${env.region}") {
+
+        docker.withRegistry("https://${registry}", "ecr:${env.region}:aws-key") {
+            sh "docker image pull ${pullImage}"
+            sh "docker image tag ${pullImage} ${pushImage}"
+        }
+
+    }
+  }
+
+  stage('Push Docker Image') {
+
+    withAWS(credentials:'aws-key', region: "${env.region}") {
+
+        docker.withRegistry("https://${registry}", "ecr:${env.region}:aws-key") {
+            sh "docker image push ${pushImage}"
+        }
+    }
+  }
+}
+
+def setVariables(){
+
+    registry  = env.image_ref.split('/')[0]
+    imageName = env.image_ref.split(':')[0]
+    imageTag  = env.image_ref.split(':')[1]
+
+    tagAlreadyLatest = (imageTag == "latest")
+
+    pullImage = "${env.image_ref}"
+    pushImage = "${imageName}:latest"
+
+    println "AWS ECR registry: ${registry}"
+    println "Tagging as latest: ${pullImage}"
+    if(tagAlreadyLatest){
+      println "Image is already latest. Nothing to do here."
+    }else {
+      println "Pushing ${pushImage}"
+    }
+}</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>

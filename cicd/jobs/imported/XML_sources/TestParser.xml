@@ -1,0 +1,107 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@2.41">
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <jenkins.model.BuildDiscarderProperty>
+      <strategy class="hudson.tasks.LogRotator">
+        <daysToKeep>90</daysToKeep>
+        <numToKeep>-1</numToKeep>
+        <artifactDaysToKeep>-1</artifactDaysToKeep>
+        <artifactNumToKeep>-1</artifactNumToKeep>
+      </strategy>
+    </jenkins.model.BuildDiscarderProperty>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>RESULTS_REGION</name>
+          <description>Region in which staging tests are running</description>
+          <defaultValue>eu-west-2</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>BUCKET_NAME</name>
+          <description>Name of the S3 bucket that contains the RESULTS_FILENAME</description>
+          <defaultValue>stagingtests</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>SERVICE_TRIGGER</name>
+          <defaultValue>latest</defaultValue>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>BUILD_TIME</name>
+          <description>Used to find the name of the test results artifact from S3.</description>
+          <trim>false</trim>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@2633.v6baeedc13805">
+    <script>import java.text.SimpleDateFormat
+import java.time.Instant
+import java.util.Date
+
+node {
+    setVariables()
+    stage ('Download Test Results') {
+
+        withAWS(credentials:'aws-key', region: env.RESULTS_REGION) {
+            s3Download(file:"./", bucket:env.BUCKET_NAME, path:"$outputFolder/", force:true)
+        }
+    }
+
+    stage('Unzip Test Results'){
+
+        def zipFiles = findFiles(glob:"$outputFolder/*.zip")
+
+        for(zipFile in zipFiles){
+            // This unzips all the zip file contents into the current directory.
+            // The kubernetes job name is in the trx file names so there shouldn't be any trx overwrites.
+            unzip zipFile: zipFile.path, glob: '**/*.trx'
+        }
+    }
+
+    stage('Parse Test Resulsts'){
+        mstest testResultsFile:"**/*.trx", keepLongStdio: true, failOnError: true
+    }
+
+    stage('reports') {
+
+        def resultsPath = 'root/Results'
+
+        writeFile file: "$resultsPath/environment.properties", text: "ResultsBucket=$env.BUCKET_NAME\n"
+
+        script {
+            allure([
+                    includeProperties: false,
+                    jdk: '',
+                    properties: [],
+                    reportBuildPolicy: 'ALWAYS',
+                    results: [[path: resultsPath]]
+            ])
+        }
+    }
+}
+
+def setVariables(){
+
+    //Convert the passed in build time to human readable format
+    echo "Build Time is: $env.BUILD_TIME"
+    Long unixEpoch = Long.valueOf(env.BUILD_TIME)
+    Date convertedDate = Date.from(Instant.ofEpochMilli(unixEpoch))
+    def buildTimeStamp = new SimpleDateFormat("E-MMM-dd-HH-mm-ss-z-yyyy").format(convertedDate)
+
+    //Get the service name and version number
+    println "Service trigger: $env.SERVICE_TRIGGER"
+
+    serviceVersion = env.SERVICE_TRIGGER.split('/')[1].replace(':','-')
+    outputFolder = "$serviceVersion-$buildTimeStamp"
+
+}</script>
+    <sandbox>false</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>

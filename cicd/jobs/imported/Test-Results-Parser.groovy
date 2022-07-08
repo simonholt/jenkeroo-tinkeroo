@@ -1,0 +1,48 @@
+#!/usr/bin/env groovy
+
+pipelineJob('Test-Results-Parser') {
+    displayName('Test-Results-Parser')
+    // description('Test-Results-Parser')
+
+    disabled(false)
+    keepDependencies(false)
+
+    concurrentBuild(true)
+    resumeBlocked(false)
+
+    logRotator {
+        numToKeep(10)
+        daysToKeep(30)
+    }
+
+    configure { project ->
+        project / 'properties' / 'org.jenkinsci.plugins.workflow.job.properties.DurabilityHintJobProperty' {
+            hint('PERFORMANCE_OPTIMIZED')
+        }
+    }
+
+    parameters {
+        choiceParam('RESULTS_REGION', ['eu-west-1', 'us-east-1'], 'Region in which staging tests are running')
+        stringParam('BUCKET_NAME', 'wcc-dev-staging-data', 'Name of the S3 bucket that contains the RESULTS_FILENAME')
+        stringParam('SERVICE_TRIGGER', 'latest', 'SERVICE_TRIGGER description')
+        stringParam('BUILD_TIME', '', 'Used to find the name of the test results artifact from S3.')
+        stringParam('AWS_ACCOUNT_ID', '992548356091', 'The AWS account the bucket belongs to')
+        stringParam('MANAGED_ROLE', 'ToolsSpinnakerManagedRole', 'MANAGED_ROLE description')
+        stringParam('E2E_PATH')
+        stringParam('S3LOC')
+    }
+
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url('https://github.com/simonholt/jenkeroo-tinkeroo.git')
+                    }
+                    branches('*/main')
+                }
+            }
+            scriptPath('cicd/pipelines/imported/Test-Results-Parser.groovy')
+        }
+    }
+}
