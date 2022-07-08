@@ -1,0 +1,41 @@
+#!/usr/bin/env groovy
+
+pipelineJob('imported/Test-Results-Parser-v2') {
+    displayName('Test-Results-Parser-v2')
+    // description('TestResultsParserv2')
+
+    disabled(false)
+    keepDependencies(false)
+
+    logRotator {
+        numToKeep(10)
+        daysToKeep(30)
+    }
+
+    configure { project ->
+        project / 'properties' / 'org.jenkinsci.plugins.workflow.job.properties.DurabilityHintJobProperty' {
+            hint('PERFORMANCE_OPTIMIZED')
+        }
+    }
+
+    parameters {
+        choiceParam('RESULTS_REGION', ['eu-west-1', 'us-east-1'], 'Region in which staging tests are running')
+        stringParam('BUCKET_NAME', 'wcc-staging-staging-data', 'Name of the S3 bucket that contains the RESULTS_FILENAME')
+        stringParam('OUTPUT_FOLDER', 'e2e', 'Please use this format {technical_owner}/{servicename}/{version}/{test-type}/')
+        stringParam('AWS_ACCOUNT_ID', '992548356091', 'The AWS account the bucket belongs to')
+    }
+
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url('https://github.com/simonholt/jenkeroo-tinkeroo.git')
+                    }
+                    branches('*/main')
+                }
+            }
+            scriptPath('cicd/pipelines/imported/Test_Results_Parser_v2.jenkins')
+        }
+    }
+}

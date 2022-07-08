@@ -1,0 +1,48 @@
+#!/usr/bin/env groovy
+
+pipelineJob('test-folder/example-tracetool-deviceas') {
+    displayName('Example TraceTool-DeviceAS')
+
+    logRotator {
+        numToKeep(10)
+        daysToKeep(30)
+    }
+
+    configure { project ->
+        project / 'properties' / 'org.jenkinsci.plugins.workflow.job.properties.DurabilityHintJobProperty' {
+            hint('PERFORMANCE_OPTIMIZED')
+        }
+    }
+
+    parameters {
+        // choiceParam('RESULTS_REGION', ['eu-west-1', 'us-east-1'], 'Region in which staging tests are running')
+        // stringParam('BUCKET_NAME', 'wcc-dev-staging-data', 'Name of the S3 bucket that contains the RESULTS_FILENAME')
+        // stringParam('SERVICE_TRIGGER', 'latest')
+        // stringParam('BUILD_TIME', null, 'Used to find the name of the test results artifact from S3.')
+        // stringParam('AWS_ACCOUNT_ID', '992548356091', 'The AWS account the bucket belongs to')
+        // stringParam('MANAGED_ROLE', 'ToolsSpinnakerManagedRole')
+        // stringParam('E2E_PATH')
+        // stringParam('S3LOC')
+
+        stringParam('BUCKET_NAME', 'wcc-staging-staging-data')
+        stringParam('TAG', 'latest')
+        stringParam('AWS_ACCOUNT_ID', '770740718813', 'The AWS account the bucket belongs to')
+        choiceParam('RESULTS_REGION', ['us-east-1', 'eu-west-1'], 'Region in which staging tests are running')
+        stringParam('SERVICE_TRIGGER', '289606673548.dkr.ecr.us-east-1.amazonaws.com/deviceas:1.10.12')
+        stringParam('BUILD_TIME', '1655915732716', 'Used to find the name of the test results artifact from S3.')
+    }
+
+    definition {
+        cpsScm {
+            scm {
+                git {
+                    remote {
+                        url('https://github.com/simonholt/jenkeroo-tinkeroo.git')
+                    }
+                    branches('*/main')
+                }
+            }
+            scriptPath('cicd/pipelines/test-folder/example_tracetool_deviceas.jenkins')
+        }
+    }
+}
