@@ -8,7 +8,7 @@ pipelineJob('PromoteImagesToProduction') {
     keepDependencies(false)
 
     concurrentBuild(true)
-    resumeBlocked(false)
+    // resumeBlocked(false)
 
     logRotator {
         numToKeep(10) // 1

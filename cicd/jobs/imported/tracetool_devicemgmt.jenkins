@@ -8,7 +8,7 @@ pipelineJob('tracetool_devicemgmt') {
     keepDependencies(false)
 
     concurrentBuild(true)
-    resumeBlocked(false)
+    // resumeBlocked(false)
 
     logRotator {
         numToKeep(10)
