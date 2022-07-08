@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-pipelineJob('tracetool_trending') {
+pipelineJob('imported/tracetool_trending') {
     displayName('tracetool_trending')
     // description('tracetool_trending')
 

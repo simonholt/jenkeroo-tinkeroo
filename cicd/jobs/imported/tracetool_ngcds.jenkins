@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-pipelineJob('tracetool_ngcds') {
+pipelineJob('imported/tracetool_ngcds') {
     displayName('tracetool_ngcds')
     // description('tracetool_ngcds')
 

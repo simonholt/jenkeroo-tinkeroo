@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-pipelineJob('tracetool_labmonitor') {
+pipelineJob('imported/tracetool_labmonitor') {
     displayName('tracetool_labmonitor')
     // description('tracetool_labmonitor')
 
