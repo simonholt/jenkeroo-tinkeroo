@@ -1,29 +1,39 @@
 #!/usr/bin/env groovy
 
 //This script expects a credential called shared-ecr to exist in Jenkins
-node {
-
-  setVariables()
-
-  if(tagAlreadyLatest){
-      currentBuild.result = 'SUCCESS'
-      return
-  }
-
-  stage('Pull and Tag Docker Image') {
-    withAWS(credentials:'aws-key', region: "${pullRegion}") {
-        docker.withRegistry("https://${pullRegistry}", "ecr:${pullRegion}:aws-key") {
-            sh "docker image pull ${pullImage}"
-            sh "docker image tag ${pullImage} ${pushImage}"
+podTemplate(containers: [
+    containerTemplate(name: 'docker-daemon', image: 'docker:dind', ttyEnabled: true, envVars: [ envVar(key: 'DOCKER_TLS_CERTDIR', value: '')], privileged: true),
+    containerTemplate(name: 'docker-client', image: 'docker:dind', ttyEnabled: true, envVars: [ envVar(key: 'DOCKER_HOST', value: 'tcp://localhost:2375')], command: 'sleep', args: '99d')
+]) {
+  node {
+    setVariables()
+    if(tagAlreadyLatest){
+        currentBuild.result = 'SUCCESS'
+        return
+    }
+    stage('Wait for Docker daemon to be ready') {
+        container('docker-client') {
+            sh "sleep 5; while ! docker ps > /dev/null; do sleep 1s; done;"
         }
     }
-  }
-
-  stage('Push Docker Image') {
-    withAWS(credentials:'aws-key', region: "${env.region}") {
-        docker.withRegistry("https://${pushRegistry}", "ecr:${env.region}:aws-key") {
-            sh "docker image push ${pushImage}"
+    stage('Pull and Tag Docker Image') {
+      container('docker-client') {
+        withAWS(credentials:'aws-key', region: "${pullRegion}") {
+            docker.withRegistry("https://${pullRegistry}", "ecr:${pullRegion}:aws-key") {
+                sh "docker image pull ${pullImage}"
+                sh "docker image tag ${pullImage} ${pushImage}"
+            }
         }
+      }
+    }
+    stage('Push Docker Image') {
+      container('docker-client') {
+        withAWS(credentials:'aws-key', region: "${env.region}") {
+            docker.withRegistry("https://${pushRegistry}", "ecr:${env.region}:aws-key") {
+                sh "docker image push ${pushImage}"
+            }
+        }
+      }
     }
   }
 }

@@ -21,6 +21,8 @@ pipelineJob('imported/TagSharedImageAsLatest') {
     }
 
     parameters {
+        // the script can push the image to a different region
+        // either remove the region parameter or update its description
         stringParam('image_ref', '', 'The full docker image reference in AWS ECR to tag as latest i.e. repo/name:tag')
         stringParam('region', '', 'The AWS region containing the image e.g. us-east-1')
     }

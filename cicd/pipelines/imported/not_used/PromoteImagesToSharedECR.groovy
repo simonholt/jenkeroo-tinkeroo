@@ -10,11 +10,11 @@ This script also requires the following parameters
 - to_region
 - from_account
 - to_account
-- images_to_promote --&gt; this one is a multiline string where each line contains a full image arn with tag
+- images_to_promote --> this one is a multiline string where each line contains a full image arn with tag
 */
 node {
 
-  parsedImages = new ArrayList&lt;DockerImage&gt;()
+  parsedImages = new ArrayList<DockerImage>()
 
   setVariables()
 
@@ -53,7 +53,7 @@ def setVariables(){
     toRegistry = "${env.to_account}.dkr.ecr.${env.to_region}.amazonaws.com"
 
     images = env.images_to_promote.split("\\n")
-    if (images.length &gt; 0) {
+    if (images.length > 0) {
         images.each {
             image = new DockerImage()
             imageName = it.split('/')[1]

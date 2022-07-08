@@ -3,7 +3,7 @@
 //This script expects a credential called aws-key to exist in Jenkins
 node {
 
-  parsedImages = new ArrayList&lt;DockerImage&gt;()
+  parsedImages = new ArrayList<DockerImage>()
 
   setVariables()
 
@@ -43,7 +43,7 @@ def setVariables(){
     toRegistry = "032356282346.dkr.ecr.${env.to_region}.amazonaws.com"
 
     images = env.images_to_promote.split("\\n")
-    if (images.length &gt; 0) {
+    if (images.length > 0) {
         images.each {
             image = new DockerImage()
             imageName = it.split('/')[1]
