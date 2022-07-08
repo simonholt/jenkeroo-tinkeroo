@@ -1,8 +1,8 @@
 #!/usr/bin/env groovy
 
-pipelineJob('Test-Results-Parser-v2') {
-    displayName('Test-Results-Parser-v2')
-    // description('Test-Results-Parser-v2')
+pipelineJob('TestResultsParserv2') {
+    displayName('TestResultsParserv2')
+    // description('TestResultsParserv2')
 
     disabled(false)
     keepDependencies(false)
@@ -35,7 +35,7 @@ pipelineJob('Test-Results-Parser-v2') {
                     branches('*/main')
                 }
             }
-            scriptPath('cicd/pipelines/imported/Test-Results-Parser-v2.jenkins')
+            scriptPath('cicd/pipelines/imported/TestResultsParserv2.jenkins')
         }
     }
 }
