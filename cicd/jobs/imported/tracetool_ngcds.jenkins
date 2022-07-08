@@ -7,7 +7,7 @@ pipelineJob('tracetool_ngcds') {
     disabled(false)
     keepDependencies(false)
 
-    concurrentBuild(true)
+    concurrentBuild()
     // resumeBlocked(false)
 
     logRotator {

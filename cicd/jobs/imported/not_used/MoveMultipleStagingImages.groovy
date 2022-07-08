@@ -7,7 +7,7 @@ pipelineJob('MoveMultipleStagingImages') {
     disabled(false)
     keepDependencies(false)
 
-    concurrentBuild(true)
+    concurrentBuild()
     // resumeBlocked(false)
 
     logRotator {

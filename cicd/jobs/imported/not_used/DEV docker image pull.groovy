@@ -7,7 +7,7 @@ pipelineJob('imported/DEV docker image pull') {
     disabled(false)
     keepDependencies(false)
 
-    concurrentBuild(true)
+    concurrentBuild()
     // resumeBlocked(false)
 
     logRotator {
