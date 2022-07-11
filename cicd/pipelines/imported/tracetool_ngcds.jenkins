@@ -60,7 +60,7 @@ pipeline {
                                 println body
                                 // final String response = sh "curl -X POST -H \"Accept: application/vnd.github.everest-preview+json\" -H \"Authorization: token ${GitHub_Token}\" -d '${body}' https://api.github.com/repos/waterscorporation/${env.GITHUB_REPO_NAME}/dispatches"
                                 // temporary GET data, not post
-                                final String response = sh "curl -H \"Authorization: token ${GitHub_Token}\" -L https://api.github.com/repos/waterscorporation/${env.GITHUB_REPO_NAME}/git/trees/main?recursive=1"
+                                final String response = sh "curl -X GET -H \"Accept: application/vnd.github.everest-preview+json\" -H \"Authorization: token ${GitHub_Token}\" https://api.github.com/repos/waterscorporation/${env.GITHUB_REPO_NAME}"
                                 echo response
                             }
                     }
