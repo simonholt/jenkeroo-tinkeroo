@@ -21,8 +21,9 @@ node {
     stage ('Download Test Results') {
         withAWS(role:"${env.MANAGED_ROLE}", roleAccount: "${env.AWS_ACCOUNT_ID}", duration: 900, roleSessionName: 'jenkins-s3-session') {
             s3Download(file:"./", bucket:env.BUCKET_NAME, path:"$outputFolder/", force:true)
-            println "List files in $outputFolder:"
-            sh "ls -al $outputFolder"
+            println "outputFolder is $outputFolder:"
+            println "files in workspace/imported/:"
+            sh "ls -alR /home/jenkins/workspace/imported/"
         }
     }
 
