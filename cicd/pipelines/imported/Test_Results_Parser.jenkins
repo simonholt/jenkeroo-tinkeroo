@@ -64,7 +64,6 @@ def setVariables(){
     Long unixEpoch = Long.valueOf(env.BUILD_TIME)
     Date convertedDate = Date.from(Instant.ofEpochMilli(unixEpoch))
     // def buildTimeStamp = new SimpleDateFormat("E-MMM-dd-HH-mm-ss-z-yyyy").setTimeZone(TimeZone.getTimeZone("UTC")).format(convertedDate)
-
     final SimpleDateFormat sdf = new SimpleDateFormat("E-MMM-dd-HH-mm-ss-z-yyyy");
     sdf.setTimeZone(TimeZone.getTimeZone("UTC"))
     def buildTimeStamp = sdf.format(convertedDate)
