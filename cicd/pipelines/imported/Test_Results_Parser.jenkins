@@ -21,9 +21,6 @@ node {
     stage ('Download Test Results') {
         withAWS(role:"${env.MANAGED_ROLE}", roleAccount: "${env.AWS_ACCOUNT_ID}", duration: 900, roleSessionName: 'jenkins-s3-session') {
             s3Download(file:"./", bucket:env.BUCKET_NAME, path:"$outputFolder/", force:true)
-            println "outputFolder is $outputFolder:"
-            println "files in workspace/imported/:"
-            sh "ls -alR /home/jenkins/workspace/imported/"
         }
     }
 
@@ -66,7 +63,11 @@ def setVariables(){
     echo "Build Time is: $env.BUILD_TIME"
     Long unixEpoch = Long.valueOf(env.BUILD_TIME)
     Date convertedDate = Date.from(Instant.ofEpochMilli(unixEpoch))
-    def buildTimeStamp = new SimpleDateFormat("E-MMM-dd-HH-mm-ss-z-yyyy").format(convertedDate)
+    // def buildTimeStamp = new SimpleDateFormat("E-MMM-dd-HH-mm-ss-z-yyyy").setTimeZone(TimeZone.getTimeZone("UTC")).format(convertedDate)
+
+    final SimpleDateFormat sdf = new SimpleDateFormat("E-MMM-dd-HH-mm-ss-z-yyyy");
+    sdf.setTimeZone(TimeZone.getTimeZone("UTC"))
+    def buildTimeStamp = sdf.format(convertedDate)
 
     //Get the service name and version number
     println "Service trigger: $env.SERVICE_TRIGGER"
