@@ -32,11 +32,11 @@ pipeline {
             steps {
 
                 script {
-
-                    echo "Build Time is: $env.BUILD_TIME"
-                    Long unixEpoch = Long.valueOf(env.BUILD_TIME)
-                    Date convertedDate = Date.from(Instant.ofEpochMilli(unixEpoch))
-                    buildTimeStamp = new SimpleDateFormat("E-MMM-dd-HH-mm-ss-z-yyyy").format(convertedDate)
+                    // Build Time is not used in the script
+                    // echo "Build Time is: $env.BUILD_TIME"
+                    // Long unixEpoch = Long.valueOf(env.BUILD_TIME)
+                    // Date convertedDate = Date.from(Instant.ofEpochMilli(unixEpoch))
+                    // buildTimeStamp = new SimpleDateFormat("E-MMM-dd-HH-mm-ss-z-yyyy").format(convertedDate)
                     //Get the service name and version number
                     println "Service trigger: $env.SERVICE_TRIGGER"
 
@@ -59,7 +59,9 @@ pipeline {
 
                                 body = "{\"event_type\": \"${service_name}_tracetool_via_jenkins\", \"client_payload\": { \"service_trigger\": \"${env.BUCKET_NAME}\",\"staging_test_path\": \"$outputFolder/e2e\", \"version_suffix\": \"$serviceVersion\", \"traceablity_upload_path\": \"$outputFolder\", \"file\": \"${it.name}\"}}"
                                 println body
-                                final String response = sh "curl -X POST -H \"Accept: application/vnd.github.everest-preview+json\" -H \"Authorization: token ${GitHub_Token}\" -d '${body}' https://api.github.com/repos/waterscorporation/wcc-scp-devicemgmt/dispatches"
+                                // final String response = sh "curl -X POST -H \"Accept: application/vnd.github.everest-preview+json\" -H \"Authorization: token ${GitHub_Token}\" -d '${body}' https://api.github.com/repos/waterscorporation/wcc-scp-devicemgmt/dispatches"
+                                // temporary GET some data, not post
+                                final String response = sh "curl -H \"Authorization: token ${GitHub_Token}\" -L https://api.github.com/repos/waterscorporation/${env.GITHUB_REPO_NAME}/git/trees/main?recursive=1"
                                 echo response
                             }
                     }
