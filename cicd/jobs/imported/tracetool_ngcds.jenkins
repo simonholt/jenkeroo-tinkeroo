@@ -41,7 +41,7 @@ pipelineJob('imported/tracetool_ngcds') {
                     branches('*/main')
                 }
             }
-            scriptPath('cicd/pipelines/imported/tracetool_ngcds.groovy')
+            scriptPath('cicd/pipelines/imported/tracetool_ngcds.jenkins')
         }
     }
 }

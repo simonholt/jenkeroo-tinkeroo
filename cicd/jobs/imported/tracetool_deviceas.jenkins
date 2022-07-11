@@ -41,7 +41,7 @@ pipelineJob('imported/tracetool_deviceas') {
                     branches('*/main')
                 }
             }
-            scriptPath('cicd/pipelines/imported/tracetool_deviceas.groovy')
+            scriptPath('cicd/pipelines/imported/tracetool_deviceas.jenkins')
         }
     }
 }

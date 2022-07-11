@@ -40,7 +40,7 @@ pipelineJob('imported/tracetool_trending') {
                     branches('*/main')
                 }
             }
-            scriptPath('cicd/pipelines/imported/tracetool_trending.groovy')
+            scriptPath('cicd/pipelines/imported/tracetool_trending.jenkins')
         }
     }
 }
