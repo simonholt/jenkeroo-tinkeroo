@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Tracettool GitHub Action') {
             environment {
-               GitHub_Token = credentials('Github_Token')
+               GitHub_Token = credentials('github-token')
                body= ''
             }
 
